@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#001191">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CheckPoint">
+  <meta name="description"
+    content="Track your savings goals. Set targets, log income and spending, and stay on track every day.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/logo.png">
+  <link rel="icon" type="image/png" href="icons/logo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <title>CheckPoint — Sign In</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #e1c5fe;
+      --surface: #6496e8;
+      --surface2: #544ce8;
+      --surface3: #450cb0;
+      --light: #e1c5fe;
+      --border: rgba(0, 17, 145, 0.18);
+      --border2: rgba(69, 12, 176, 0.28);
+      --text: #001191;
+      --text2: #450cb0;
+      --text3: #544ce8;
+      --accent: #001191;
+      --accent-dim: rgba(0, 17, 145, 0.14);
+      --red: #450cb0;
+      --red-dim: rgba(69, 12, 176, 0.16);
+      --positive: #6496e8;
+      --positive-dim: rgba(100, 150, 232, 0.18);
+      --amber: #544ce8;
+      --on-accent: #e1c5fe;
+      --bg-gradient: linear-gradient(180deg, #001191 0%, #450cb0 34%, #544ce8 66%, #6496e8 84%, #e1c5fe 100%);
+      --btn-grad-start: #450cb0;
+      --btn-grad-end: #001191;
+      --btn-text: #e1c5fe;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #001191;
+        --surface: #450cb0;
+        --surface2: #544ce8;
+        --surface3: #6496e8;
+        --border: rgba(225, 197, 254, 0.2);
+        --border2: rgba(225, 197, 254, 0.34);
+        --text: #e1c5fe;
+        --text2: #e1c5fe;
+        --text3: #6496e8;
+        --accent: #6496e8;
+        --accent-dim: rgba(100, 150, 232, 0.22);
+        --red: #e1c5fe;
+        --red-dim: rgba(225, 197, 254, 0.2);
+        --positive: #6496e8;
+        --positive-dim: rgba(100, 150, 232, 0.24);
+        --amber: #544ce8;
+        --on-accent: #001191;
+        --bg-gradient: linear-gradient(180deg, #001191 0%, #450cb0 46%, #544ce8 76%, #6496e8 100%);
+        --btn-grad-start: #544ce8;
+        --btn-grad-end: #001191;
+        --btn-text: #e1c5fe;
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-gradient);
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      justify-content: center;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--accent);
+      color: var(--on-accent);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 21px;
+      letter-spacing: -0.3px;
+    }
+
+    .logo-tagline {
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-top: 1px;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      padding: 11px 13px;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+    }
+
+    .field input::placeholder {
+      color: var(--text3);
+    }
+
+    .modal-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .m-cancel,
+    .m-confirm {
+      border-radius: var(--radius-sm);
+      padding: 12px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .m-cancel {
+      background: linear-gradient(135deg, var(--btn-grad-start), var(--btn-grad-end));
+      border: 1px solid rgba(171, 210, 250, 0.28);
+      color: var(--btn-text);
+    }
+
+    .m-cancel:hover {
+      filter: brightness(1.08);
+      border-color: rgba(214, 233, 255, 0.45);
+    }
+
+    .m-confirm {
+      background: var(--accent);
+      border: none;
+      color: var(--on-accent);
+    }
+
+    .m-confirm:hover {
+      filter: brightness(1.08);
+    }
+
+    .auth-divider {
+      text-align: center;
+      margin: 16px 0;
+      color: var(--text3);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 10px;
+    }
+
+    .auth-btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 12px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      width: 100%;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .auth-btn-outline:hover {
+      background: var(--surface2);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <div class="logo">
+      <div class="logo-mark">
+        <img src="icons/logo.png" alt="CheckPoint logo">
+      </div>
+      <div>
+        <div class="logo-text">CheckPoint</div>
+        <div class="logo-tagline">Savings Tracker</div>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <div class="login-title">Sign In</div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="auth-email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="auth-password" placeholder="••••••••">
+      </div>
+      <div class="modal-btns">
+        <button class="m-cancel" onclick="signInWithEmail()">Sign In</button>
+        <button class="m-confirm" onclick="signUpWithEmail()">Sign Up</button>
+      </div>
+
+      <div class="auth-divider">OR</div>
+
+      <button class="auth-btn-outline" onclick="signInWithMagicLink()">
+        ✨ Send Magic Link
+      </button>
+      <button class="auth-btn-outline" onclick="signInWithGoogle()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4" />
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853" />
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            fill="#FBBC05" />
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            fill="#EA4335" />
+        </svg>
+        Continue with Google
+      </button>
+    </div>
+    <div id="auth-message" style="margin-top: 15px; text-align: center; font-size: 13px; color: var(--red);"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      const msgDiv = document.getElementById('auth-message');
+
+      function showMessage(msg, isError = true) {
+        msgDiv.style.color = isError ? 'var(--red)' : 'var(--positive)';
+        msgDiv.innerText = msg;
+      }
+
+      if (!window.supabase) {
+        showMessage("Supabase not loaded");
+        return;
+      }
+
+      const SUPABASE_URL = 'https://uoymhbrqfgobfojwoxrq.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_m-9nszEZuYvgMb-CoC4m_g_DBJUYxAi';
+
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // 🔥 CRITICAL FIX: handle OAuth redirect
+      const { data, error } = await supabase.auth.getSession();
+
+      if (data?.session?.user) {
+        localStorage.setItem('user-email', data.session.user.email);
+
+        // clean URL (removes access_token from address bar)
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        window.location.replace('index.html');
+        return;
+      }
+
+      // 🔥 ALSO listen for auth change (backup)
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user) {
+          localStorage.setItem('user-email', session.user.email);
+          window.location.replace('index.html');
+        }
+      });
+
+      // ✅ SIGN UP
+      window.signUpWithEmail = async function () {
+        showMessage("Signing up...", false);
+
+        const email = document.getElementById('auth-email').value;
+        const password = document.getElementById('auth-password').value;
+
+        if (!email || !password) return showMessage('Enter email and password');
+
+        const { error } = await supabase.auth.signUp({ email, password });
+
+        if (error) showMessage(error.message);
+        else showMessage('Check your email for confirmation', false);
+      };
+
+      // ✅ SIGN IN
+      window.signInWithEmail = async function () {
+        showMessage("Signing in...", false);
+
+        const email = document.getElementById('auth-email').value;
+        const password = document.getElementById('auth-password').value;
+
+        if (!email || !password) return showMessage('Enter email and password');
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          showMessage(error.message);
+        } else {
+          localStorage.setItem('user-email', email);
+          window.location.replace('index.html');
+        }
+      };
+
+      // ✅ MAGIC LINK
+      window.signInWithMagicLink = async function () {
+        showMessage("Sending link...", false);
+
+        const email = document.getElementById('auth-email').value;
+        if (!email) return showMessage('Enter email');
+
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: window.location.origin + '/login.html'
+          }
+        });
+
+        if (error) showMessage(error.message);
+        else showMessage('Magic link sent', false);
+      };
+
+      // ✅ GOOGLE LOGIN
+      window.signInWithGoogle = async function () {
+        showMessage("Redirecting...", false);
+
+        await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin + '/login.html'
+          }
+        });
+      };
+
+    });
+  </script>
+</body>
+
+</html>
